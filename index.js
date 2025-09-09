@@ -1,4 +1,3 @@
-
 const loadCategories = () => {
     const url = "https://openapi.programming-hero.com/api/categories";
     fetch(url)
@@ -110,6 +109,59 @@ const displayTrees = (trees) => {
 
 
 
+const loadTreeDetails = async (id) => {
+    try {
+        const url = `https://openapi.programming-hero.com/api/plant/${id}`;
+        console.log(url)
+        const res = await fetch(url);
+        const data = await res.json();
+        displayTreeDetails(data.plants); 
+    } catch (err) {
+        console.error("Tree details load error:", err);
+    }
+};
+
+const displayTreeDetails = (tree) => {
+    if (!tree) {
+        console.error("Tree not found!");
+        return;
+    }
+
+    const modalBox = document.querySelector("#my_modal_5 .modal-box");
+
+    modalBox.innerHTML = `
+        <h2 class="text-2xl font-bold mb-2">${tree.name}</h2>
+        <img src="${tree.image}" alt="${tree.name}" 
+             class="w-full h-48 object-cover rounded-lg mb-4">
+        
+        <p class="text-gray-600 mb-2"><b>Category:</b> ${tree.category}</p>
+        <p class="text-gray-600 mb-2"><b>Price:</b> ${tree.price}</p>
+        <p class="text-gray-600 mb-2"><b>Description:</b> ${tree.description}</p>
+
+        <div class="modal-action">
+            <form method="dialog">
+                <button class="btn">Close</button>
+            </form>
+        </div>
+    `;
+
+    document.getElementById("my_modal_5").showModal();
+};
+
+
+
+const categoryBtn = (id) => {
+    showSpinner(true);
+    const url = `https://openapi.programming-hero.com/api/category/${id}`;
+    fetch(url)
+        .then(res => res.json())
+        .then(data => {
+            displaySpecificTrees(data.plants);
+            setActiveCategory(id);
+            showSpinner(false);
+        });
+};
+
 const displaySpecificTrees = (trees) => {
     const container = document.getElementById("treeCatcontainer");
     container.innerHTML = "";
@@ -167,6 +219,7 @@ const showSpinner = (status) => {
         container.classList.remove("hidden");
     }
 };
+
 
 
 loadCategories();
