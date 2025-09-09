@@ -183,7 +183,7 @@ const displaySpecificTrees = (trees) => {
                 <button class="bg-green-200 text-black rounded-xl px-3 py-1">${tree.category}</button>
                 <p class="price">${tree.price}</p>
             </div>
-            <button onclick="cartclick('${tree.name}', 500)" 
+            <button onclick="cartclick('${tree.name}', ${tree.price})" 
                 class="btn-primary w-full bg-[#15803D] hover:bg-[#15803D90] text-white py-2 rounded mt-5 mb-5">
                 Add to Cart
             </button>
